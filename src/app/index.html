@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            .input {
+                border: 1px solid black;
+                padding: 1em;
+                display: flex;
+                flex-direction: column;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="input">
+            <h2>Message</h2>
+            <input type="range" id="x-val" value="0" min="0" max="128">
+            <input type="range" id="y-val" value="0" min="0" max="64">
+            <input type="text" id="msg">
+            <button id="send">Send</button>
+        </div>
+        <div class="input">
+            <h2>Rectangle</h2>
+            <input type="range" id="x-val-1" value="0" min="0" max="128">
+            <input type="range" id="y-val-1" value="0" min="0" max="64">
+            <input type="range" id="w-val" value="0" min="0" max="128">
+            <input type="range" id="h-val" value="0" min="0" max="64">
+            <button id="send-1">Send</button>
+        </div>
+        <script>
+            // setInterval(()=>{
+            //     fetch(`http://192.168.1.184/wifi`).then((res)=>{
+            //         res.text().then((data)=>{
+            //             console.log(data)
+            //         })
+            //     })
+            // }, 500);
+            //get all the dom inputs
+            fetch(`http://192.168.1.184/networks`).then((res) => {
+                res.text().then((data) => {
+                    console.log(JSON.parse(data))
+                })
+            })
+            const xVal = document.getElementById('x-val');
+            const yVal = document.getElementById('y-val');
+            const msg = document.getElementById('msg');
+            const send = document.getElementById('send');
+            const xVal1 = document.getElementById('x-val-1');
+            const yVal1 = document.getElementById('y-val-1');
+            const wVal = document.getElementById('w-val');
+            const hVal = document.getElementById('h-val');
+            const send1 = document.getElementById('send-1');
+
+            function sendMessageData() {
+                fetch(`http://192.168.1.184/msg?clear=1&x=${xVal.value}&y=${yVal.value}&msg=${msg.value}`).then((res) => {
+                    res.text().then((data) => {
+                        console.log(data)
+                    })
+                })
+            }
+            function sendRectData() {
+                fetch(`http://192.168.1.184/box?clear=1&x=${xVal1.value}&y=${yVal1.value}&w=${wVal.value}&h=${hVal.value}`).then((res) => {
+                    res.text().then((data) => {
+                        console.log(data)
+                    })
+                })
+            }
+            send.addEventListener('click', () => {
+                sendMessageData();
+            })
+            xVal.addEventListener('input', () => {
+                sendMessageData();
+            })
+            yVal.addEventListener('input', () => {
+                sendMessageData();
+            })
+            msg.addEventListener('input', () => {
+                sendMessageData();
+            })
+            send1.addEventListener('click', () => {
+                sendRectData();
+            })
+            xVal1.addEventListener('input', () => {
+                sendRectData();
+            })
+            yVal1.addEventListener('input', () => {
+                sendRectData();
+            })
+            wVal.addEventListener('input', () => {
+                sendRectData();
+            })
+            hVal.addEventListener('input', () => {
+                sendRectData();
+            })
+
+        </script>
+    </body>
+
+</html>
